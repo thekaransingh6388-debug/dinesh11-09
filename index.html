@@ -17,11 +17,11 @@
     t.src=v;s=b.getElementsByTagName(e)[0];
     s.parentNode.insertBefore(t,s)}(window, document,'script',
     'https://connect.facebook.net/en_US/fbevents.js');
-    fbq('init', '1616318466662435');
+    fbq('init', '1729847931461662');
     fbq('track', 'PageView');
     </script>
     <noscript><img height="1" width="1" style="display:none"
-    src="https://www.facebook.com/tr?id=1616318466662435&ev=PageView&noscript=1"
+    src="https://www.facebook.com/tr?id=1729847931461662&ev=PageView&noscript=1"
     /></noscript>
     <!-- End Meta Pixel Code -->
 
@@ -318,18 +318,17 @@
 <script>
     let time = 30;
     let counter = document.getElementById("count");
-    let tracked = false;
-
+    let tracked = false;          // ensures Lead event fires only once
     const TELEGRAM_URL = "https://t.me/+r71Npr7KUAkxYTJl";
 
-    // Fire a Lead/Click event when user clicks the Join button
-    document.getElementById("telegramBtn").addEventListener("click", function(e){
+    // ---- Telegram button click tracking ----
+    document.getElementById("telegramBtn").addEventListener("click", function(e) {
         e.preventDefault();
         const telegramLink = this.href;
 
         if (!tracked) {
             tracked = true;
-            // Track the click as a Lead event for Facebook Pixel
+            // Standard Lead event
             if (typeof fbq === 'function') {
                 fbq('track', 'Lead', {
                     content_name: 'Telegram Join',
@@ -337,17 +336,19 @@
                     value: 1.00,
                     currency: 'INR'
                 });
-                // Optional: also track as a custom event
+                // Custom event for extra clarity
                 fbq('trackCustom', 'TelegramJoinClick');
             }
         }
 
-        setTimeout(()=>{
+        // Small delay to allow pixel to fire before navigation
+        setTimeout(() => {
             window.location.href = telegramLink;
         }, 250);
     });
 
-    const countdown = setInterval(()=>{
+    // ---- Countdown & auto-redirect tracking ----
+    const countdown = setInterval(() => {
         time--;
         if (counter) {
             counter.innerText = time;
@@ -356,7 +357,7 @@
         if (time <= 0) {
             clearInterval(countdown);
 
-            // Track auto-redirect as a Lead event (only once)
+            // Fire Lead event only if not already tracked (e.g., user didn't click)
             if (!tracked) {
                 tracked = true;
                 if (typeof fbq === 'function') {
@@ -375,5 +376,4 @@
 </script>
 
 </body>
-</html>
-<script async src="/.netlify/scripts/hud?variant=public" data-nf-variant="public" data-netlify-site-id="42c48234-5191-4957-8dd9-9e76be5f5fb0" data-app-host="app.netlify.com"></script>
+</html>lify.com"></script>
